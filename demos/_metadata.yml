@@ -1,4 +1,6 @@
 # Shared configurations for all demos
 engine: knitr
+toc: false
+page-layout: full
 filters:
   - shinylive

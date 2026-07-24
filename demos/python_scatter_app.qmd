@@ -3,7 +3,8 @@ title: "Python Scatter Plot App (Shinylive)"
 description: "A serverless WebAssembly-powered Python Shiny app demonstrating plotnine and scatter_plotnine() in Python."
 author: "Brian S. Yandell"
 image: "../images/py_scatter_preview.png"
-toc: true
+toc: false
+page-layout: full
 ---
 
 [← Back to Demos Gallery](index.qmd)

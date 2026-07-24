@@ -3,7 +3,8 @@ title: "R Scatter Plot App (Shinylive)"
 description: "A serverless WebAssembly-powered R Shiny app demonstrating scatter_ggplot() and modular UI/server components."
 author: "Brian S. Yandell"
 image: "../images/r_scatter_preview.png"
-toc: true
+toc: false
+page-layout: full
 ---
 
 [← Back to Demos Gallery](index.qmd)
