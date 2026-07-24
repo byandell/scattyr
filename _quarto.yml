@@ -1,0 +1,33 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - demos/index.qmd
+    - demos/r_scatter_app.qmd
+    - demos/python_scatter_app.qmd
+
+website:
+  title: "scattyr"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Demos Gallery
+        menu:
+          - href: demos/index.qmd
+            text: Gallery Overview
+          - href: demos/r_scatter_app.qmd
+            text: R Scatter App
+          - href: demos/python_scatter_app.qmd
+            text: Python Scatter App
+    right:
+      - icon: github
+        href: https://github.com/byandell/scattyr
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    filters:
+      - shinylive

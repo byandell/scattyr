@@ -1,0 +1,15 @@
+---
+title: "Scattyr Demos Gallery"
+subtitle: "Explore interactive R and Python Shiny scatter plot modules powered by WebAssembly (Shinylive)"
+toc: false
+listing:
+  contents:
+    - r_scatter_app.qmd
+    - python_scatter_app.qmd
+  type: grid
+  categories: false
+---
+
+This gallery showcases interactive demos for both R and Python versions of the **scattyr** generic scatter plot application alongside their complete source code.
+
+Explore the live serverless WebAssembly apps below or click any demo card to inspect the interactive module and source code tabs.

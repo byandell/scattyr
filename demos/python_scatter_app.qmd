@@ -1,0 +1,182 @@
+---
+title: "Python Scatter Plot App (Shinylive)"
+description: "A serverless WebAssembly-powered Python Shiny app demonstrating plotnine and scatter_plotnine() in Python."
+author: "Brian S. Yandell"
+image: "../images/py_scatter_preview.png"
+toc: true
+---
+
+[← Back to Demos Gallery](index.qmd)
+
+This section displays a Python scatter plot application using `scatter_plotnine()`, powered directly in your browser via **Shinylive** (WebAssembly).
+
+The live application runs completely serverless in your browser. Below the application, view the source files for both the application (`scatter_plot_app.py`) and the plotting module (`scatter.py`) in separate tabs.
+
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 750
+#| components: [viewer]
+
+## file: requirements.txt
+pandas
+numpy
+matplotlib
+plotnine
+
+## file: scatter.py
+import pandas as pd
+import numpy as np
+from plotnine import (
+    ggplot, aes, geom_point, geom_smooth, facet_wrap, labs,
+    theme_minimal, scale_shape_manual, scale_color_brewer, scale_color_hue
+)
+
+def scatter_plotnine(
+    dat,
+    color_by="none",
+    shape_by="none",
+    facet_by="none",
+    add_line=True,
+    point_size=3.0,
+    point_alpha=0.7,
+    x_label="x",
+    y_label="y"
+):
+    if dat is None or "x" not in dat.columns or "y" not in dat.columns:
+        return None
+
+    df = dat.copy()
+    for col in ["sex", "diet", "geno", "Genotype"]:
+        if col in df.columns:
+            df[col] = df[col].astype("category")
+
+    if "sex" in df.columns and "diet" in df.columns:
+        df["sex_diet"] = (df["sex"].astype(str) + "_" + df["diet"].astype(str)).astype("category")
+
+    if "subject" not in df.columns:
+        df["subject"] = df.index.astype(str)
+
+    mapping = {"x": "x", "y": "y"}
+    col_var = color_by if (color_by and color_by != "none" and color_by in df.columns) else None
+    shape_var = shape_by if (shape_by and shape_by != "none" and shape_by in df.columns) else None
+    facet_var = facet_by if (facet_by and facet_by != "none" and facet_by in df.columns) else None
+
+    if col_var:
+        mapping["color"] = col_var
+        mapping["group"] = col_var
+    if shape_var:
+        mapping["shape"] = shape_var
+
+    p = ggplot(df, aes(**mapping))
+
+    if add_line:
+        if col_var:
+            p += geom_smooth(method="lm", se=False, linetype="solid", size=1)
+        else:
+            p += geom_smooth(aes(group=1), method="lm", se=False, color="black", linetype="solid", size=1)
+
+    if not shape_var:
+        p += geom_point(shape="o", fill="none", size=point_size, alpha=point_alpha, stroke=1.5)
+    else:
+        p += geom_point(fill="none", size=point_size, alpha=point_alpha, stroke=1.5)
+        shapes = ["o", "s", "^", "D", "v", "p", "*", "+", "x", "h"]
+        p += scale_shape_manual(values=shapes)
+
+    if facet_var:
+        p += facet_wrap(f"~ {facet_var}")
+
+    p += theme_minimal(base_size=9)
+    p += labs(x=x_label, y=y_label)
+
+    if col_var:
+        num_levels = df[col_var].nunique()
+        if num_levels <= 8:
+            p += scale_color_brewer(type="qual", palette="Dark2")
+        else:
+            p += scale_color_hue()
+
+    return p
+
+## file: app.py
+from shiny import App, Inputs, Outputs, Session, module, reactive, render, ui
+from scatter import scatter_plotnine
+import pandas as pd
+import numpy as np
+
+def make_mock_df(n=200, seed=42):
+    np.random.seed(seed)
+    df = pd.DataFrame({
+        "subject": [f"ind_{i+1}" for i in range(n)],
+        "x": np.random.randn(n),
+        "sex": np.random.choice(["Female", "Male"], n),
+        "diet": np.random.choice(["Chow", "HF"], n),
+        "geno": np.random.choice(["AA", "AB", "BB"], n),
+    })
+    y = (
+        2 * df["x"]
+        + np.where(df["sex"] == "Male", 1.5, 0.0)
+        + np.where(df["diet"] == "HF", -1.0, 0.0)
+        + np.where(df["geno"] == "AB", 0.5, np.where(df["geno"] == "BB", 1.0, 0.0))
+        + np.random.randn(n) * 0.8
+    )
+    df["y"] = y
+    df.index = df["subject"]
+    return df
+
+mock_df = make_mock_df()
+
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.input_select("color_by", "Color by:", choices={"none": "None", "sex": "sex", "diet": "diet", "geno": "geno", "sex_diet": "sex_diet"}, selected="none"),
+        ui.input_select("shape_by", "Shape by:", choices={"none": "None", "sex": "sex", "diet": "diet", "geno": "geno"}, selected="none"),
+        ui.input_select("facet_by", "Facet by:", choices={"none": "None", "sex": "sex", "diet": "diet", "geno": "geno", "sex_diet": "sex_diet"}, selected="none"),
+        ui.input_checkbox("add_line", "Add regression line?", value=True),
+        ui.input_slider("point_size", "Point Size:", min=1, max=10, value=3, step=0.5),
+        ui.input_slider("point_alpha", "Transparency (Alpha):", min=0.1, max=1, value=0.7, step=0.1),
+    ),
+    ui.card(
+        ui.output_plot("plot_static")
+    ),
+    title="Test Generic Scatter Plot (Python / plotnine)"
+)
+
+def server(input: Inputs, output: Outputs, session: Session):
+    @output
+    @render.plot
+    def plot_static():
+        col_by = input.color_by()
+        shp_by = input.shape_by()
+        fct_by = input.facet_by()
+        add_l = input.add_line()
+        pt_sz = input.point_size()
+        pt_al = input.point_alpha()
+        return scatter_plotnine(
+            dat=mock_df,
+            color_by=col_by,
+            shape_by=shp_by,
+            facet_by=fct_by,
+            add_line=add_l,
+            point_size=pt_sz,
+            point_alpha=pt_al
+        )
+
+app = App(app_ui, server)
+```
+
+## Source Code
+
+::: {.panel-tabset}
+
+### scatter_plot_app.py
+```{r}
+#| code: !expr readLines("../scatter_plot_app.py")
+#| eval: false
+```
+
+### scatter.py
+```{r}
+#| code: !expr readLines("../scatter.py")
+#| eval: false
+```
+
+:::

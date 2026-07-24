@@ -1,0 +1,4 @@
+# Shared configurations for all demos
+engine: knitr
+filters:
+  - shinylive

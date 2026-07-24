@@ -1,0 +1,7 @@
+---
+title: "scattyr: Generic Scatter Plots in R & Python"
+subtitle: "Modular, reactive generic scatter plot applications built with R and Python"
+toc: false
+---
+
+{{< include README.md >}}
