@@ -62,8 +62,8 @@
 ### Quarto Site & Demos Gallery (`./demos`)
 
 1. **Quarto Website Configuration ([`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml)) & [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore)**:
-   - Configured top-level site structure pointing to `./demos/index.qmd`, `./demos/r_scatter_app.qmd`, and `./demos/python_scatter_app.qmd` using `shinylive` filter (`quarto-ext/shinylive`).
-   - Added `_site/`, `_extensions/`, and `.quarto/` to [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore) to ensure build artifacts and extensions are not exported/tracked in git.
+   - Configured `output-dir: .` in [`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml) so Quarto renders HTML outputs (`demos/*.html`, `index.html`) in-place alongside source files, preserving them for GitHub publication.
+   - Pointed rendering targets to `./demos/index.qmd`, `./demos/r_scatter_app.qmd`, and `./demos/python_scatter_app.qmd` using `shinylive` filter (`quarto-ext/shinylive`).
 
 2. **Top-Level Demos Gallery Listing Grid ([`demos/index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.qmd))**:
    - Moved Demos Gallery to top-level `./demos/index.qmd` displaying Quarto grid listing cards (`listing: type: grid`).
@@ -76,3 +76,6 @@
    - `index.qmd` includes `README.md`.
    - Removed `./docs` directory completely.
    - Updated `README.md` demo cards to link to `demos/r_scatter_app.html` and `demos/python_scatter_app.html`.
+
+5. **Rendered HTML Output**:
+   - Preserved rendered HTML files ([`demos/index.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.html), [`demos/r_scatter_app.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/r_scatter_app.html), and [`demos/python_scatter_app.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/python_scatter_app.html)) in the `demos/` directory so they are saved and ready to be committed and pushed to GitHub.

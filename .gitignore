@@ -67,3 +67,4 @@ _extensions/
 .quarto/
 
 /.quarto/
+site_libs/
