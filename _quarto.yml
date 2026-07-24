@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: .
+  output-dir: _site
   render:
     - index.qmd
     - demos/index.qmd
@@ -29,6 +29,5 @@ format:
   html:
     theme: cosmo
     toc: true
-    embed-resources: true
     filters:
       - shinylive

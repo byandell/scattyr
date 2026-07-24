@@ -61,10 +61,11 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Quarto output and extension folders
+# Quarto output and build folders (built & deployed dynamically by GitHub Actions)
 _site/
 _extensions/
 .quarto/
-
 /.quarto/
 site_libs/
+index.html
+demos/*.html

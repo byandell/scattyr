@@ -62,21 +62,20 @@
 ### Quarto Site & Demos Gallery (`./demos`)
 
 1. **Quarto Website Configuration ([`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml)) & [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore)**:
-   - Configured `output-dir: .` and `embed-resources: true` in [`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml) so Quarto embeds resources and renders standalone HTML outputs (`demos/*.html`, `index.html`) in-place.
-   - Pointed rendering targets to `./demos/index.qmd`, `./demos/r_scatter_app.qmd`, and `./demos/python_scatter_app.qmd` using `shinylive` filter (`quarto-ext/shinylive`).
-   - Added `site_libs/`, `_site/`, `_extensions/`, and `.quarto/` to [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore) to ensure support asset directories are not committed or exported to GitHub.
+   - Configured `output-dir: _site` in [`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml) for dynamic site generation.
+   - Added `_site/`, `_extensions/`, `site_libs/`, and `.quarto/` to [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore) to keep the Git source repository clean.
 
-2. **Top-Level Demos Gallery Listing Grid ([`demos/index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.qmd))**:
-   - Moved Demos Gallery to top-level `./demos/index.qmd` displaying Quarto grid listing cards (`listing: type: grid`).
+2. **Automated CI/CD Deployment ([`.github/workflows/deploy.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/.github/workflows/deploy.yml))**:
+   - Created a GitHub Actions workflow matching `geyser` that automatically installs R, Python, Quarto, and Shinylive dependencies, executes `quarto render .`, creates `.nojekyll`, and deploys `_site` (including `site_libs/shinylive` WASM binaries and service worker assets) to GitHub Pages upon git push.
 
-3. **Interactive WebAssembly Demo Pages**:
+3. **Top-Level Demos Gallery Listing Grid ([`demos/index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.qmd))**:
+   - Built top-level `./demos/index.qmd` displaying Quarto grid listing cards (`listing: type: grid`).
+
+4. **Interactive WebAssembly Demo Pages**:
    - **[`demos/r_scatter_app.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/r_scatter_app.qmd)**: Interactive serverless R Shinylive app (`{shinylive-r}`) running directly in the browser, with source code tabsets reading `../scatterPlotApp.R`, `../scatter.R`, and `../theme.R`.
    - **[`demos/python_scatter_app.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/python_scatter_app.qmd)**: Interactive serverless Python Shinylive app (`{shinylive-python}`) running `plotnine` and `scatter_plotnine()` in the browser, with source code tabsets reading `../scatter_plot_app.py` and `../scatter.py`.
 
-4. **Landing Page Integration ([`index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/index.qmd) & [`README.md`](file:///Users/brianyandell/Documents/GitHub/scattyr/README.md))**:
+5. **Landing Page Integration ([`index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/index.qmd) & [`README.md`](file:///Users/brianyandell/Documents/GitHub/scattyr/README.md))**:
    - `index.qmd` includes `README.md`.
    - Removed `./docs` directory completely.
    - Updated `README.md` demo cards to link to `demos/r_scatter_app.html` and `demos/python_scatter_app.html`.
-
-5. **Rendered HTML Output**:
-   - Preserved rendered HTML files ([`demos/index.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.html), [`demos/r_scatter_app.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/r_scatter_app.html), and [`demos/python_scatter_app.html`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/python_scatter_app.html)) in the `demos/` directory so they are saved and ready to be committed and pushed to GitHub.
