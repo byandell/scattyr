@@ -29,5 +29,6 @@ format:
   html:
     theme: cosmo
     toc: true
+    embed-resources: true
     filters:
       - shinylive

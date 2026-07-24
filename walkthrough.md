@@ -62,8 +62,9 @@
 ### Quarto Site & Demos Gallery (`./demos`)
 
 1. **Quarto Website Configuration ([`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml)) & [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore)**:
-   - Configured `output-dir: .` in [`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml) so Quarto renders HTML outputs (`demos/*.html`, `index.html`) in-place alongside source files, preserving them for GitHub publication.
+   - Configured `output-dir: .` and `embed-resources: true` in [`_quarto.yml`](file:///Users/brianyandell/Documents/GitHub/scattyr/_quarto.yml) so Quarto embeds resources and renders standalone HTML outputs (`demos/*.html`, `index.html`) in-place.
    - Pointed rendering targets to `./demos/index.qmd`, `./demos/r_scatter_app.qmd`, and `./demos/python_scatter_app.qmd` using `shinylive` filter (`quarto-ext/shinylive`).
+   - Added `site_libs/`, `_site/`, `_extensions/`, and `.quarto/` to [`.gitignore`](file:///Users/brianyandell/Documents/GitHub/scattyr/.gitignore) to ensure support asset directories are not committed or exported to GitHub.
 
 2. **Top-Level Demos Gallery Listing Grid ([`demos/index.qmd`](file:///Users/brianyandell/Documents/GitHub/scattyr/demos/index.qmd))**:
    - Moved Demos Gallery to top-level `./demos/index.qmd` displaying Quarto grid listing cards (`listing: type: grid`).
