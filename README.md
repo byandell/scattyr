@@ -1,5 +1,3 @@
-# scattyr: Generic Scatter Plots in R & Python
-
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-38bdf8?style=flat-svg)](https://byandell.github.io/scattyr/)
 [![R Version](https://img.shields.io/badge/R-4.6%2B-276DC3?style=flat-svg&logo=r)](https://www.r-project.org/)
 [![Python Version](https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-svg&logo=python)](https://www.python.org/)
@@ -25,11 +23,13 @@
 ### 1. R Scatter Plot App
 
 #### From Shell
+
 ```bash
 Rscript -e 'source("scatterPlotApp.R"); scatterPlotApp()'
 ```
 
 #### From R / Quarto (`.qmd`) code block
+
 ```r
 source("scatterPlotApp.R")
 scatterPlotApp()
@@ -40,11 +40,13 @@ scatterPlotApp()
 ### 2. Python Scatter Plot App
 
 #### From Shell
+
 ```bash
 shiny run scatter_plot_app.py
 ```
 
 #### From Python / Quarto (`.qmd`) code block
+
 ```python
 from scatter_plot_app import app
 app.run()
